@@ -35,7 +35,7 @@ void terminal_start(size_t buffer_size) {
       uart_putc(0x08);
       break;
     default:
-      if (character == 0) {
+      if (character == 0 || counter >= (buffer_size - 1)) {
         continue;
       }
 
