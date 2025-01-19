@@ -20,7 +20,7 @@ void terminal_start(size_t buffer_size) {
       uart_putc('>');
       uart_putc(' ');
 
-      buffer[counter] = '\n';
+      buffer[counter] = '\0';
       counter = 0;
 
       break;
