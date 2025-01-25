@@ -1,4 +1,4 @@
-#include "terminal.h"
+#include "console.h"
 
 void show_banner() {
   uart_puts("Lixux 0.0.1");
@@ -6,7 +6,7 @@ void show_banner() {
   uart_putc(' ');
 }
 
-void terminal_start(size_t buffer_size) {
+void console_start(size_t buffer_size) {
   char buffer[buffer_size];
   int counter = 0;
 

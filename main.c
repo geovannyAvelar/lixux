@@ -1,9 +1,9 @@
 #include "uart.h"
-#include "terminal.h"
+#include "console.h"
 
 void kmain(void) {
   uart_init();
 
   show_banner();
-  terminal_start(256);
+  console_start(256);
 }
