@@ -10,10 +10,10 @@ qemu:
 	
 	riscv64-unknown-elf-ld -T linker.ld -nostdlib \
 		main.o entry.o uart.o console.o -o kernel.elf
-	
+
 	qemu-system-riscv64 -machine virt -bios none -m 128M -gdb tcp::1234 \
-		-device virtio-blk-pci,drive=drive0,id=virtblk0,num-queues=4 \
-		-drive file=disk.qcow2,if=none,id=drive0 \
+		-device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0 \
+		-drive file=fs.img,if=none,id=x0 \
 		-S -kernel kernel.elf -serial mon:stdio
 
 debug:
