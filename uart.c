@@ -25,7 +25,7 @@ typedef volatile struct uart_regs_t {
   uint8_t lsr;
 }uart_regs_t;
 
-void uart_init() {
+void uart_init(void) {
   uart_regs_t* regs = (uart_regs_t*) UART_ADDRESS;
 
   regs->ier = 0x0;
@@ -36,7 +36,7 @@ void uart_init() {
   regs->ier = IER_TX_ENABLE | IER_RX_ENABLE;
 }
 
-char uart_getc() {
+char uart_getc(void) {
   uart_regs_t* regs = (uart_regs_t*) UART_ADDRESS;
 
   if ((regs->lsr & regs->ier) == 0) {

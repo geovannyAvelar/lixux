@@ -1,6 +1,6 @@
 #include "console.h"
 
-void show_banner() {
+void show_banner(void) {
   uart_puts("Lixux 0.0.1");
   uart_putc('>');
   uart_putc(' ');
