@@ -14,43 +14,41 @@
 #define IER_TX_ENABLE (1<<1)
 #define IER_RX_ENABLE (1<<0)
 
+#pragma pack(1)
+
+typedef volatile struct uart_regs_t {
+  uint8_t base_address;
+  uint8_t ier;
+  uint8_t fcr;
+  uint8_t lcr;
+  uint8_t padding;
+  uint8_t lsr;
+}uart_regs_t;
+
 void uart_init() {
-  volatile uint8_t* uart_base = (volatile uint8_t*) UART_ADDRESS;
+  uart_regs_t* regs = (uart_regs_t*) UART_ADDRESS;
 
-  volatile uint8_t* uart_ier = (volatile uint8_t*) uart_base + IER;
-  *uart_ier = 0x0;
-
-  volatile uint8_t* uart_lcr = (volatile uint8_t*) uart_base + LCR;
-  *uart_lcr = LCR_BAUD_LATCH;
-
-  volatile uint8_t* uart = (volatile uint8_t*) uart_base;
-  *uart = 0x03;
-
-  *uart_lcr = (volatile uint8_t*) LCR_EIGHT_BITS;
-
-  volatile uint8_t* uart_fcr = (volatile uint8_t*) uart_base + FCR;
-  *uart_fcr = FCR_FIFO_ENABLE | FCR_FIFO_CLEAR;
-
-  *uart_ier = IER_TX_ENABLE | IER_RX_ENABLE;
+  regs->ier = 0x0;
+  regs->lcr = LCR_BAUD_LATCH;
+  regs->base_address = 0x03;
+  regs->lcr = LCR_EIGHT_BITS;
+  regs->fcr = FCR_FIFO_ENABLE | FCR_FIFO_CLEAR;
+  regs->ier = IER_TX_ENABLE | IER_RX_ENABLE;
 }
 
 char uart_getc() {
-  volatile uint8_t* uart_base = (volatile uint8_t*) UART_ADDRESS;
-  volatile uint8_t* uart_lsr = (volatile uint8_t*) uart_base + LSR;
-  volatile uint8_t* uart_line_status_data_ready = (volatile uint8_t*) uart_base + 1;
+  uart_regs_t* regs = (uart_regs_t*) UART_ADDRESS;
 
-  if ((*uart_lsr & *uart_line_status_data_ready) == 0) {
+  if ((regs->lsr & regs->ier) == 0) {
     return 0;
   }
 
-  char* c = uart_base;
-
-  return *c;
+  return regs->base_address;
 }
 
 void uart_putc(const char c) {
-  volatile char* uart = (volatile char*) UART_ADDRESS;
-  *uart = c;
+  uart_regs_t* regs = (uart_regs_t*) UART_ADDRESS;
+  regs->base_address = c;
 }
 
 void uart_puts(char* str) {
