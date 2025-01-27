@@ -6,7 +6,7 @@ void show_banner(void) {
   uart_putc(' ');
 }
 
-void console_start(size_t buffer_size) {
+void console_start(uint64_t buffer_size) {
   char buffer[buffer_size];
   int counter = 0;
 
