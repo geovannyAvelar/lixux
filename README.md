@@ -1,8 +1,6 @@
 # Lixux
 
-## Description
-Lixux is an attempt to create a simple kernel focused on
-RISC-V instruction set.
+Lixux is an attempt to create a simple kernel focused on RISC-V instruction set.
 
 ## Installation
 
