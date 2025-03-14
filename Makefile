@@ -1,7 +1,7 @@
 
-CC = riscv64-unknown-elf-gcc
-AS = riscv64-unknown-elf-as
-LD = riscv64-unknown-elf-ld
+CC = riscv64-elf-gcc
+AS = riscv64-elf-as
+LD = riscv64-elf-ld
 CFLAGS = -g -ffreestanding -nostartfiles -nostdlib -nodefaultlibs -O0 -Wl,--gc-sections -c \
 				-mcmodel=medany
 LDFLAGS = -nostdlib
