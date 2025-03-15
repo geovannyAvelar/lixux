@@ -19,6 +19,7 @@ build:
 
 qemu:
 	make build
+	make fs
 
 	qemu-system-riscv64 -machine virt -bios none -m 128M -cpu rv64 -smp 1 \
 		-device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0 \
@@ -30,3 +31,6 @@ qemu:
 
 debug:
 	gdb-multiarch -ex "target remote :1234" -annotate riscv:rv64 --tui $(TARGET)
+
+fs:
+	qemu-img create -f raw fs.img 512m
