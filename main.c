@@ -2,6 +2,7 @@
 #include "console.h"
 #include "kalloc.h"
 #include "virtio.h"
+#include "scheduler.h"
 
 void kmain(void) {
   uart_init();

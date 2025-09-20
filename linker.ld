@@ -20,9 +20,14 @@ SECTIONS {
 	.rodata : ALIGN(4K) {
 		*(.rodata);
 	}
-	.data : ALIGN(4K) {
-		*(.data);
-	}
+  .data : ALIGN(4K) {
+    *(.data);
+  }
+  .hello : ALIGN(4K) {
+    _binary_hello_elf_start = .;
+    KEEP(*(.hello));
+    _binary_hello_elf_end = .;
+  }
 
   PROVIDE(end = .);
 }

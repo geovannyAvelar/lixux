@@ -2,10 +2,11 @@
 CC = riscv64-elf-gcc
 AS = riscv64-elf-as
 LD = riscv64-elf-ld
+OBJCOPY = riscv64-elf-objcopy
 CFLAGS = -g -ffreestanding -nostartfiles -nostdlib -nodefaultlibs -O0 -Wl,--gc-sections -c \
 				-mcmodel=medany
 LDFLAGS = -nostdlib
-SOURCES = kalloc.c console.c uart.c virtio.c main.c
+SOURCES = string.c scheduler.c kalloc.c console.c uart.c virtio.c main.c
 OBJECTS = $(SOURCES:.c=.o)
 TARGET = kernel.elf
 
@@ -15,7 +16,9 @@ clean:
 build:
 	$(CC) $(CFLAGS) $(SOURCES)
 	$(AS) -c entry.s -o entry.o
-	$(LD) -T linker.ld $(LDFLAGS) entry.o $(OBJECTS) -o $(TARGET)
+	$(OBJCOPY) -I binary -O elf64-littleriscv -B riscv hello hello.o
+	$(OBJCOPY) --rename-section .data=.hello hello.o
+	$(LD) -T linker.ld $(LDFLAGS) entry.o hello.o $(OBJECTS) -o $(TARGET)
 
 qemu:
 	make build
