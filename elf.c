@@ -1,4 +1,5 @@
-#include "scheduler.h"
+#include "string.h"
+#include "elf.h"
 #include "uart.h"
 
 uint8_t parse_elf(const uint8_t *elf_data, struct elf *elf)

@@ -1,6 +1,6 @@
 #include "console.h"
 #include "string.h"
-#include "scheduler.h"
+#include "elf.h"
 
 extern uint8_t _binary_hello_elf_start[];
 extern uint8_t _binary_hello_elf_end[];

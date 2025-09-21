@@ -6,7 +6,7 @@ OBJCOPY = riscv64-elf-objcopy
 CFLAGS = -g -ffreestanding -nostartfiles -nostdlib -nodefaultlibs -O0 -Wl,--gc-sections -c \
 				-mcmodel=medany
 LDFLAGS = -nostdlib
-SOURCES = string.c scheduler.c kalloc.c console.c uart.c virtio.c main.c
+SOURCES = string.c elf.c kalloc.c console.c uart.c virtio.c main.c
 OBJECTS = $(SOURCES:.c=.o)
 TARGET = kernel.elf
 
