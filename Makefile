@@ -6,7 +6,7 @@ OBJCOPY = riscv64-elf-objcopy
 CFLAGS = -g -ffreestanding -nostartfiles -nostdlib -nodefaultlibs -O0 -Wl,--gc-sections -c \
 				-mcmodel=medany
 LDFLAGS = -nostdlib
-SOURCES = string.c elf.c kalloc.c console.c uart.c virtio.c main.c
+SOURCES = vm.c string.c elf.c console.c uart.c main.c
 OBJECTS = $(SOURCES:.c=.o)
 TARGET = kernel.elf
 
@@ -29,6 +29,7 @@ qemu:
 		-drive file=fs.img,if=none,id=x0,format=raw \
 		-global virtio-mmio.force-legacy=false \
 		-serial mon:stdio \
+		-monitor tcp:127.0.0.1:4444,server,nowait \
 		-gdb tcp::1234 \
 		-kernel $(TARGET)
 
