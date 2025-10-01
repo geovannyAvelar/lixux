@@ -1,32 +1,5 @@
 #include "uart.h"
 
-#define UART_ADDRESS 0x10000000
-
-#define IER 1
-#define FCR 2
-#define LCR 3
-#define LSR 5
-
-#define LCR_BAUD_LATCH (1<<7)
-#define LCR_EIGHT_BITS (3<<0)
-#define FCR_FIFO_ENABLE (1<<0)
-#define FCR_FIFO_CLEAR (3<<1)
-#define IER_TX_ENABLE (1<<1)
-#define IER_RX_ENABLE (1<<0)
-
-#pragma pack(1)
-
-typedef volatile struct uart_regs_t {
-  uint8_t base_address;
-  uint8_t ier;
-  uint8_t fcr;
-  uint8_t lcr;
-  uint8_t: 8; // Padding of eight bits
-  uint8_t lsr;
-}uart_regs_t;
-
-#pragma pack()
-
 void uart_init(void) {
   uart_regs_t* regs = (uart_regs_t*) UART_ADDRESS;
 
@@ -55,5 +28,35 @@ void uart_putc(const char c) {
 
 void uart_puts(char* str) {
   while (*str) uart_putc(*str++);
-  uart_putc('\n');
+}
+
+void uart_putint(uint64_t num) {
+  if (num == 0) {
+    uart_putc('0');
+    return;
+  }
+
+  char buffer[20];
+  int i = 0;
+
+  while (num > 0 && i < sizeof(buffer) - 1) {
+    buffer[i++] = '0' + (num % 10);
+    num /= 10;
+  }
+
+  for (int j = i - 1; j >= 0; j--) {
+    uart_putc(buffer[j]);
+  }
+}
+
+void uart_puthex(uint64_t num) {
+  uart_puts("0x");
+  for (int i = (sizeof(num) * 2) - 1; i >= 0; i--) {
+    uint8_t nibble = (num >> (i * 4)) & 0xF;
+    if (nibble < 10) {
+      uart_putc('0' + nibble);
+    } else {
+      uart_putc('A' + (nibble - 10));
+    }
+  }
 }

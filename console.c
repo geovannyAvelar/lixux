@@ -9,6 +9,7 @@ extern uint8_t _binary_hello_elf_size[];
 void show_banner(void)
 {
   uart_puts("Lixux 0.0.1");
+  uart_puts("\n");
   uart_putc('>');
   uart_putc(' ');
 }

@@ -3,8 +3,8 @@
 #include "console.h"
 
 void kmain(void) {
-  kvminit();
   uart_init();
+  init_memory();
 
   show_banner();
   console_start(256);
