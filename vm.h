@@ -16,21 +16,19 @@
 #define PTE_D 0x080
 
 typedef uint64_t pte_t;
+typedef uint64_t *pagetable_t;
 
-typedef struct {
-  pte_t entries[PAGE_ENTRIES];
-} pagetable_t;
-
-struct free_page {
-  struct free_page *next;
+struct page {
+  struct page *next;
 };
 
 struct memory {
-  struct free_page *free_list;
+  struct page *free_list;
 };
 
 void init_memory(void);
 pagetable_t * create_pagetable(void);
-int mappages(pagetable_t *pagetable, uint64_t va, uint64_t size, uint64_t pa, int perm);
-pte_t *walk(uint64_t va, uint8_t alloc);
+int mappages(pagetable_t pagetable, uint64_t va, uint64_t size, uint64_t pa, int perm);
+pte_t *walk(pagetable_t pagetable, uint64_t va, uint8_t alloc) ;
+void* alloc_page(void);
 uint8_t memset(void *dst, uint8_t value, uint64_t size);
