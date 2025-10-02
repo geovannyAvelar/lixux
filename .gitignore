@@ -2,4 +2,4 @@
 *.elf
 *.qcow2
 *.img
-.vscode
+*.bin
