@@ -38,7 +38,7 @@ void init_memory(void) {
   uart_putint(allocated_mem / (1024 * 1024));
   uart_puts(" MB(s) of memory allocated)\n");
 
-  pagetable_t *kernel_pagetable = alloc_page();
+  pagetable_t kernel_pagetable = alloc_page();
   memset((void *)kernel_pagetable, 0, PAGE_SIZE);
 
   uart_puts("Kernel pagetable allocated at physical address: ");
@@ -50,11 +50,9 @@ void init_memory(void) {
   mappages(kernel_pagetable, UART_ADDRESS, PAGE_SIZE, UART_ADDRESS, PTE_R | PTE_W);
 }
 
-void enable_virtual_memory(pagetable_t* pagetable) {
-  pagetable_t *kernel_pagetable = (pagetable_t *)((uint64_t)&end);
-
+void enable_virtual_memory(pagetable_t pagetable) {
   const uint64_t SATP_MODE_SV39;
-  uint64_t ppn = ((uint64_t)kernel_pagetable) >> 12;
+  uint64_t ppn = ((uint64_t)pagetable) >> 12;
   uint64_t satp_val = (SATP_MODE_SV39 << 60) | ppn;
 
   asm volatile("csrw satp, %0" :: "r"(satp_val) : "memory");

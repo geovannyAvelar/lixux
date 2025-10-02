@@ -29,7 +29,7 @@ struct memory {
 };
 
 void init_memory(void);
-void enable_virtual_memory(pagetable_t* pagetable);
+void enable_virtual_memory(pagetable_t pagetable);
 int mappages(pagetable_t pagetable, uint64_t va, uint64_t size, uint64_t pa, int perm);
 pte_t *walk(pagetable_t pagetable, uint64_t va, uint8_t alloc);
 void* alloc_page(void);
