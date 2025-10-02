@@ -1,5 +1,18 @@
 #include "uart.h"
 
+#pragma pack(1)
+
+typedef volatile struct uart_regs_t {
+  uint8_t base_address;
+  uint8_t ier;
+  uint8_t fcr;
+  uint8_t lcr;
+  uint8_t: 8; // Padding of eight bits
+  uint8_t lsr;
+} uart_regs_t;
+
+#pragma pack()
+
 void uart_init(void) {
   uart_regs_t* regs = (uart_regs_t*) UART_ADDRESS;
 
