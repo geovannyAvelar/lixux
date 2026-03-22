@@ -10,7 +10,7 @@ SOURCES = serial.c vga.c console.c main.c
 OBJECTS = $(SOURCES:.c=.o) $(ENTRY_O)
 TARGET = kernel.elf
 
-all: $(TARGET)
+all: $(TARGET) copy_kernel_to_rootfs
 
 $(ENTRY_O): $(ENTRY_S)
 	$(AS) --32 -o $@ $<
@@ -22,6 +22,12 @@ $(TARGET): $(OBJECTS) linker.ld
 	$(LD) -T linker.ld $(LDFLAGS) $(OBJECTS) -o $(TARGET)
 
 compile: $(OBJECTS)
+
+copy_kernel_to_rootfs: $(TARGET)
+	cp $(TARGET) rootfs/boot/lixux
+
+run: deploy
+	qemu-system-x86_64 -hda disk.img -serial stdio
 
 clean:
 	rm -f *.o *.elf
