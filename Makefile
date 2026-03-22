@@ -24,7 +24,7 @@ $(TARGET): $(OBJECTS) linker.ld
 compile: $(OBJECTS)
 
 run:
-	qemu-system-x86_64 -m 128M -hda disk.img -serial stdio
+	qemu-system-x86_64 -m 128M -machine type=pc,accel=kvm -hda disk.img -serial stdio
 
 clean:
 	rm -f *.o *.elf
