@@ -23,10 +23,7 @@ $(TARGET): $(OBJECTS) linker.ld
 
 compile: $(OBJECTS)
 
-copy_kernel_to_rootfs: $(TARGET)
-	cp $(TARGET) rootfs/boot/lixux
-
-run: deploy
+run:
 	qemu-system-x86_64 -hda disk.img -serial stdio
 
 clean:
