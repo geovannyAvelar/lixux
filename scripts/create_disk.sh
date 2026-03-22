@@ -37,6 +37,9 @@ set default=0
 menuentry \"Lixux\" {
     multiboot /boot/lixux console=ttyS0
 }
-" > rootfs/boot/grub.cfg
+" > rootfs/boot/grub/grub.cfg
 
 cp kernel.elf rootfs/boot/lixux
+
+sudo umount rootfs
+sudo qemu-nbd --disconnect /dev/nbd0
