@@ -1,5 +1,5 @@
 #include "vm.h"
-#include "types.h"
+#include <stdint.h>
 
 static struct run *freelist;
 
