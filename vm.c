@@ -5,7 +5,7 @@ static struct run *freelist;
 
 void mem_init(void)
 {
-    char *p = (char*) PGROUNDUP((uint64_t)_end);
+    char *p = (char*) PGROUNDUP((uint64_t)&_end);
     for (; p + PGSIZE <= (char*)PHYSTOP; p += PGSIZE)
         kfree(p);
 }

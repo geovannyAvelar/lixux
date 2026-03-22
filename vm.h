@@ -6,7 +6,8 @@
 
 #define PGROUNDUP(sz)  (((sz)+PGSIZE-1) & ~(PGSIZE-1))
 
-extern void* _end;
+extern char _start;
+extern char _end;
 
 struct run {
     struct run *next;

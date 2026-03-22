@@ -8,6 +8,12 @@
 .global _start
 
 _start:
+    mov $stack_top, %esp
+    mov %eax, %ecx
+    mov %ebx, %edx
+
+    push %ebx
+    push %eax
     call kmain
     cli
     hlt
