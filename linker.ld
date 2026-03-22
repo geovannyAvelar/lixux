@@ -15,6 +15,15 @@ SECTIONS
     .bss : {
       *(.bss*)
       *(COMMON)
-      _end = .;
     }
+
+    .stack (NOLOAD) : {
+        . = ALIGN(16);
+        stack_bottom = .;
+        . += 16K;
+        stack_top = .;
+    }
+
+    . = ALIGN(4096);
+    PROVIDE(_end = .);
 }
