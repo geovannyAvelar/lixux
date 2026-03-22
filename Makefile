@@ -6,11 +6,11 @@ CFLAGS = -m32 -g -ffreestanding -nostartfiles -nostdlib -nodefaultlibs -O0 -Wl,-
 LDFLAGS = -m elf_i386 -nostdlib
 ENTRY_S = entry.S
 ENTRY_O = entry.o
-SOURCES = serial.c vga.c console.c main.c
+SOURCES = vm.c serial.c vga.c console.c main.c
 OBJECTS = $(SOURCES:.c=.o) $(ENTRY_O)
 TARGET = kernel.elf
 
-all: $(TARGET) copy_kernel_to_rootfs
+all: $(TARGET)
 
 $(ENTRY_O): $(ENTRY_S)
 	$(AS) --32 -o $@ $<
@@ -24,7 +24,7 @@ $(TARGET): $(OBJECTS) linker.ld
 compile: $(OBJECTS)
 
 run:
-	qemu-system-x86_64 -hda disk.img -serial stdio
+	qemu-system-x86_64 -m 128M -hda disk.img -serial stdio
 
 clean:
 	rm -f *.o *.elf
