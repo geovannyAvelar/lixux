@@ -1,5 +1,5 @@
 #include "console.h"
-#include "types.h"
+#include <stdint.h>
 #include "serial.h"
 
 void console_init(uint64_t buffer_size)
