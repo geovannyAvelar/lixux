@@ -29,3 +29,24 @@ void serial_print(const char* str) {
         serial_write(*str++);
     }
 }
+
+void serial_print_int(uint32_t val)
+{
+    char buffer[11];
+    int i = 0;
+
+    if (val == 0) {
+        serial_write('0');
+        return;
+    }
+
+    while (val > 0) {
+        buffer[i++] = '0' + (val % 10);
+        val /= 10;
+    }
+    buffer[i] = '\0';
+
+    for (int j = i - 1; j >= 0; j--) {
+        serial_write(buffer[j]);
+    }
+}
