@@ -3,27 +3,27 @@ ENTRY(_start)
 
 SECTIONS
 {
-    . = 1M;
+  . = 1M;
 
-    .text : AT(ADDR(.text)) {
-        KEEP(*(.multiboot_header))
-        *(.text*)
-    }
+  .text : {
+      KEEP(*(.multiboot_header))
+      *(.text*)
+  }
 
-    .rodata : { *(.rodata*) }
-    .data : { *(.data*) }
-    .bss : {
-      *(.bss*)
-      *(COMMON)
-    }
+  .rodata : { *(.rodata*) }
+  .data : { *(.data*) }
+  .bss : {
+    *(.bss*)
+    *(COMMON)
+  }
 
-    .stack (NOLOAD) : {
-        . = ALIGN(16);
-        stack_bottom = .;
-        . += 16K;
-        stack_top = .;
-    }
+  .stack (NOLOAD) : {
+      . = ALIGN(16);
+      stack_bottom = .;
+      . += 16K;
+      stack_top = .;
+  }
 
-    . = ALIGN(4096);
-    PROVIDE(_end = .);
+  . = ALIGN(4096);
+  PROVIDE(_end = .);
 }
