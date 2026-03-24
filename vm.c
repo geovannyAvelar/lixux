@@ -1,13 +1,23 @@
 #include "vm.h"
+
+#include "serial.h"
+
 #include <stdint.h>
 
 static struct run *freelist;
 
 void mem_init(void)
 {
+    int count = 0;
+
     char *p = (char*) PGROUNDUP((uint64_t)&_end);
-    for (; p + PGSIZE <= (char*)PHYSTOP; p += PGSIZE)
+    for (; p + PGSIZE <= (char*)PHYSTOP; p += PGSIZE) {
+        count++;
         kfree(p);
+    }
+
+    serial_print_int(count);
+    serial_print(" memory pages allocated");
 }
 
 void freerange(void *start, void *end) {
