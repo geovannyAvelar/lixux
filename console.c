@@ -1,6 +1,6 @@
 #include "console.h"
-#include <stdint.h>
 #include "serial.h"
+#include <stdint.h>
 
 void console_init(uint64_t buffer_size)
 {

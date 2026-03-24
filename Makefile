@@ -9,6 +9,7 @@ ENTRY_O = entry.o
 SOURCES = vm.c serial.c vga.c console.c main.c
 OBJECTS = $(SOURCES:.c=.o) $(ENTRY_O)
 TARGET = kernel.elf
+DISK_IMG = disk.img
 
 all: $(TARGET)
 
@@ -21,12 +22,13 @@ $(SOURCES:.c=.o): %.o: %.c
 $(TARGET): $(OBJECTS) linker.ld
 	$(LD) -T linker.ld $(LDFLAGS) $(OBJECTS) -o $(TARGET)
 
-compile: $(OBJECTS)
+$(DISK_IMG): $(TARGET)
+	./scripts/create_disk.sh
 
-run:
+run: $(DISK_IMG)
 	qemu-system-i386 -m 128M \
 	-machine type=pc,accel=kvm \
-	-hda disk.img \
+	-hda $(DISK_IMG) \
 	-serial stdio
 
 clean:
