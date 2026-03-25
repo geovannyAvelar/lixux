@@ -1,12 +1,12 @@
 #include "console.h"
 #include "serial.h"
-#include <stdint.h>
+#include "vm.h"
 
-void console_init(uint64_t buffer_size)
+void console_init()
 {
     show_prompt();
 
-    char buffer[buffer_size];
+    char* buffer = kalloc();
     int counter = 0;
 
     for (;;)
@@ -36,7 +36,7 @@ void console_init(uint64_t buffer_size)
             serial_write(0x08);
             break;
         default:
-            if (character == 0 || counter >= (buffer_size - 1))
+            if (character == 0 || counter >= (PGSIZE - 1))
             {
                 continue;
             }
